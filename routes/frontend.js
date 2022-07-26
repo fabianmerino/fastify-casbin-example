@@ -52,39 +52,39 @@ export default async function frontend(fastify, opts) {
     prefix: '/public', // since we are using `autoPrefix`, the final path will be `/_app/public`
   })
 
-  // The OAuth callback route that we use to extract
-  // the access token and generate the session cookie.
-  fastify.route({
-    method: 'GET',
-    path: '/login/github/callback',
-    handler: onLoginCallback,
-  })
+  // // The OAuth callback route that we use to extract
+  // // the access token and generate the session cookie.
+  // fastify.route({
+  //   method: 'GET',
+  //   path: '/login/github/callback',
+  //   handler: onLoginCallback,
+  // })
 
-  async function onLoginCallback(req, reply) {
-    // In every route and hook, the `this` is the
-    // current Fastify instance!
-    const token = await this.github.getAccessTokenFromAuthorizationCodeFlow(req)
-    await this.isUserAllowed(token.access_token)
+  // async function onLoginCallback(req, reply) {
+  //   // In every route and hook, the `this` is the
+  //   // current Fastify instance!
+  //   const token = await this.github.getAccessTokenFromAuthorizationCodeFlow(req)
+  //   await this.isUserAllowed(token.access_token)
 
-    // Keep always security in mind!
-    reply.setCookie('user_session', token.access_token, {
-      // The cookie should be sent only over https
-      secure: this.config.NODE_ENV === 'production',
-      // The cookie should not be accessible via js in the browser
-      httpOnly: true,
-      // The cookie should be sent only to this domain
-      sameSite: true,
-      // The cookie should be sent only for the path starting with `/_app`
-      path: '/_app',
-      // The cookie should be signed (handled by `fastify-cookie`)
-      signed: true,
-      maxAge: 604800, // one week in seconds
-      expires: new Date(Date.now() + 604800 * 1000),
-    })
+  //   // Keep always security in mind!
+  //   reply.setCookie('user_session', token.access_token, {
+  //     // The cookie should be sent only over https
+  //     secure: this.config.NODE_ENV === 'production',
+  //     // The cookie should not be accessible via js in the browser
+  //     httpOnly: true,
+  //     // The cookie should be sent only to this domain
+  //     sameSite: true,
+  //     // The cookie should be sent only for the path starting with `/_app`
+  //     path: '/_app',
+  //     // The cookie should be signed (handled by `fastify-cookie`)
+  //     signed: true,
+  //     maxAge: 604800, // one week in seconds
+  //     expires: new Date(Date.now() + 604800 * 1000),
+  //   })
 
-    // redirect the user to the frontend
-    return reply.redirect(autoPrefix)
-  }
+  //   // redirect the user to the frontend
+  //   return reply.redirect(autoPrefix)
+  // }
 
   // A single route that serves the index.html file,
   // `fastify-static` will take care of the rest.
