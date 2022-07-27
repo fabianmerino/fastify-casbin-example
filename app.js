@@ -22,7 +22,8 @@ export default async function (fastify, opts) {
   fastify.register(Env, {
     schema: S.object()
       .prop('NODE_ENV', S.string().required())
-      // .prop('ELASTIC_CLOUD_ID', S.string())
+      .prop('JWT_SECRET', S.string())
+      .prop('COOKIE_SECRET', S.string())
       // .prop('ELASTIC_ADDRESS', S.string())
       // .prop('ELASTIC_API_KEY', S.string().required())
       // .prop('GITHUB_APP_ID', S.string().required())
@@ -32,10 +33,6 @@ export default async function (fastify, opts) {
       .valueOf(),
   })
 
-  // Fastify is an extremely lightweight framework, it does very little for you.
-  // Every feature you might need, such as cookies or database coonnectors
-  // is provided by external plugins.
-  // See the list of recognized plugins  by the core team! https://www.fastify.io/ecosystem/
   // `fastify-sensible` adds many  small utilities, such as nice http errors.
   fastify.register(Sensible)
 

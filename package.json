@@ -12,9 +12,12 @@
   },
   "dependencies": {
     "@fastify/autoload": "^5.1.0",
+    "@fastify/cookie": "^7.3.1",
     "@fastify/cors": "^8.0.0",
+    "@fastify/csrf-protection": "^5.1.0",
     "@fastify/env": "^4.0.0",
     "@fastify/helmet": "^9.1.0",
+    "@fastify/jwt": "^6.3.1",
     "@fastify/sensible": "^5.1.0",
     "@fastify/static": "^6.4.1",
     "@fastify/swagger": "^7.4.1",
@@ -28,7 +31,8 @@
     "fastify-cli": "^4.3.0",
     "fastify-plugin": "^4.0.0",
     "fluent-json-schema": "^3.1.0",
-    "mongoose": "^6.4.7"
+    "mongoose": "^6.4.7",
+    "undici": "^5.8.0"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^1.0.1",
