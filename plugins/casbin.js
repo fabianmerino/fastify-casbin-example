@@ -23,6 +23,7 @@ export default fp(
 
     fastify.addHook('onReady', async function () {
       await fastify.casbin.addPolicy('alice', 'data1', 'read')
+      await fastify.casbin.addPolicy('*', '/_app', '(GET)|(POST)')
     })
   },
   {

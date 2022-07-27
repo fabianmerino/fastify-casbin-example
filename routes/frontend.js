@@ -55,7 +55,7 @@ export default async function frontend(fastify, opts) {
   // // The OAuth callback route that we use to extract
   // // the access token and generate the session cookie.
   fastify.route({
-    method: 'GET',
+    method: 'POST',
     path: '/login',
     handler: onLoginCallback,
   })
@@ -63,11 +63,11 @@ export default async function frontend(fastify, opts) {
   async function onLoginCallback(req, reply) {
     // In every route and hook, the `this` is the
     // current Fastify instance!
-    const token = await this.github.getAccessTokenFromAuthorizationCodeFlow(req)
-    await this.isUserAllowed(token.access_token)
+    const token = await reply.jwtSign({ username: 'admin' })
+    // await this.isUserAllowed(token)
 
     // Keep always security in mind!
-    reply.setCookie('user_session', token.access_token, {
+    reply.setCookie('user_session', token, {
       // The cookie should be sent only over https
       secure: this.config.NODE_ENV === 'production',
       // The cookie should not be accessible via js in the browser
@@ -83,7 +83,7 @@ export default async function frontend(fastify, opts) {
     })
 
     // redirect the user to the frontend
-    return reply.redirect(autoPrefix)
+    return fastify.redirect(autoPrefix)
   }
 
   // A single route that serves the index.html file,
@@ -91,7 +91,11 @@ export default async function frontend(fastify, opts) {
   fastify.route({
     method: 'GET',
     path: '/',
+    preValidation: [fastify.authorize],
     handler: onBundle,
+    casbin: {
+      rest: true,
+    },
   })
 
   function onBundle(req, reply) {
