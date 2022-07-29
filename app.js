@@ -24,7 +24,7 @@ export default async function (fastify, opts) {
       .prop('NODE_ENV', S.string().required())
       .prop('JWT_SECRET', S.string())
       .prop('COOKIE_SECRET', S.string())
-      // .prop('ELASTIC_ADDRESS', S.string())
+      .prop('MONGODB_URL', S.string())
       // .prop('ELASTIC_API_KEY', S.string().required())
       // .prop('GITHUB_APP_ID', S.string().required())
       // .prop('GITHUB_APP_SECRET', S.string().required())

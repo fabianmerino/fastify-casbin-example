@@ -5,15 +5,10 @@ import fastifyCasbinRest from 'fastify-casbin-rest'
 
 export default fp(
   async (fastify, opts) => {
-    const mongooseOpts = {
-      dbName: 'culqui',
-    }
-    const adapter = await MongooseAdapter.newAdapter(
-      'mongodb://root:example@localhost:27017',
-      mongooseOpts
-    )
+    const { config } = fastify
+    const adapter = await MongooseAdapter.newAdapter(config.MONGODB_URL)
     fastify.register(Casbin, {
-      model: 'basic_model.conf', // the model configuration
+      model: 'config/basic_model.conf', // the model configuration
       adapter, // the adapter
     })
 
@@ -22,7 +17,6 @@ export default fp(
     })
 
     fastify.addHook('onReady', async function () {
-      await fastify.casbin.addPolicy('alice', 'data1', 'read')
       await fastify.casbin.addPolicy('*', '/_app', '(GET)|(POST)')
     })
   },

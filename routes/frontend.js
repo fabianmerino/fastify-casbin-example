@@ -93,9 +93,7 @@ export default async function frontend(fastify, opts) {
     path: '/',
     preValidation: [fastify.authorize],
     handler: onBundle,
-    casbin: {
-      rest: true,
-    },
+    casbin: { rest: true },
   })
 
   function onBundle(req, reply) {
