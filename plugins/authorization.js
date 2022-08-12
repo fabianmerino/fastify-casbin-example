@@ -39,13 +39,6 @@ async function authorization(fastify, opts) {
   }
 }
 
-// When exporting a plugin that exposes a utility that will need to be used
-// in other parts of your application, use `fastify-plugin` to tell Fastify that
-// this plugin should not be encapsulated. See https://www.fastify.io/docs/latest/Encapsulation/.
 export default fp(authorization, {
-  // Protip: if you name your plugins, the stack trace in case of errors
-  //         will be easier to read and other plugins can declare their dependency
-  //         on this one. `fastify-autoload` will take care of loading the plugins
-  //         in the correct order.
   name: 'authorization',
 })

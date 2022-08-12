@@ -7,12 +7,9 @@ import S from 'fluent-json-schema'
 import { join } from 'desm'
 
 /**
- * This is the entry point of our application. As everything in Fastify is a plugin.
- * The main reason why the entry point is a plugin as well is that we can easily
- * import it in our testing suite and add this application as a subcomponent
- * of another Fastify application. The encapsulaton system, of Fastify will make sure
- * that you are not leaking dependencies and business logic.
- * For more info, see https://www.fastify.io/docs/latest/Encapsulation/
+ *
+ * @param {import('fastify').FastifyInstance} fastify
+ * @param {*} opts
  */
 export default async function (fastify, opts) {
   // It's very common to pass secrets and configuration
@@ -66,5 +63,12 @@ export default async function (fastify, opts) {
     dir: join(import.meta.url, 'routes'),
     dirNameRoutePrefix: false,
     options: Object.assign({}, opts),
+  })
+
+  // Finally, we'll load all of our models.
+  fastify.ready(async (err) => {
+    if (err) throw err
+    fastify.log.info('Fastify is ready!')
+    fastify.printRoutes()
   })
 }

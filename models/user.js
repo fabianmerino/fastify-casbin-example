@@ -1,4 +1,6 @@
-import { model, Schema, Types } from 'mongoose'
+import mongoose from 'mongoose'
+
+const { Schema, Types } = mongoose
 
 const userSchema = new Schema(
   {
@@ -58,4 +60,4 @@ userSchema.methods = {
   },
 }
 
-export default model('User', userSchema)
+export default userSchema
